@@ -1,26 +1,23 @@
 import OpenAI from "openai";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 export const chatWithAI = async (req, res) => {
   try {
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+
     const { message } = req.body;
 
-    const response = await openai.chat.completions.create({
+    const response = await openai.responses.create({
       model: "gpt-4o-mini",
-      messages: [{ role: "user", content: message }],
+      input: message,
     });
 
     res.json({
-      reply: response.choices[0].message.content,
+      reply: response.output_text,
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      error: "AI failed",
-      details: error.message,
-    });
+    console.error("OpenAI Error:", error);
+    res.status(500).json({ error: "OpenAI error" });
   }
 };
