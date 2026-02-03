@@ -30,6 +30,7 @@ app.use("/api/chat", chatRoutes);
 app.use("/api/notes", noteRoutes);
 app.use("/api/files", fileRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/uploads", express.static("uploads"));
 
 app.get("/", (req, res) => {
   res.send("Easy Study Backend is running 🚀");
